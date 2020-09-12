@@ -66,3 +66,7 @@ data "aws_iam_policy_document" "alb_log" {
     }
   }
 }
+
+output "bucket_id" {
+  value = aws_s3_bucket.alb_log.id
+}

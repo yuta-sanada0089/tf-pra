@@ -1,3 +1,10 @@
+variable "subnet_public_a_id" {}
+variable "subnet_public_c_id" {}
+variable "s3_id" {}
+variable "http_sg_security_group_id" {}
+variable "https_sg_security_group_id" {}
+variable "http_redirect_sg_security_group_id" {}
+
 resource "aws_lb" "example" {
   name                       = "example"
   load_balancer_type         = "application"
@@ -6,19 +13,19 @@ resource "aws_lb" "example" {
   enable_deletion_protection = true
 
   subnets = [
-    aws_subnet.public_0.id,
-    aws_subnet.public_1.id
+    var.subnet_public_a_id,
+    var.subnet_public_c_id
   ]
 
   access_logs {
-    bucket  = aws_s3_bucket.alb_log.id
-    enable  = true
+    bucket  = var.s3_id
+    enabled  = true
   }
 
   security_groups = [
-    module.http_sg.security_group_id,
-    module.https_sg.security_group_id,
-    module.http_redirect_sg.security_group_id,
+    var.http_sg_security_group_id,
+    var.https_sg_security_group_id,
+    var.http_redirect_sg_security_group_id,
   ]
 }
 

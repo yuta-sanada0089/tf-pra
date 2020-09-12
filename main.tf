@@ -49,3 +49,13 @@ module "http_redirect_sg" {
   port        = 8080
   cidr_blocks = ["0.0.0.0/0"]
 }
+
+ module "load_balancer" {
+   source     = "./http_server/load_balancers"
+   subnet_public_a_id = module.network.public_0_id
+   subnet_public_c_id = module.network.public_1_id
+   s3_id = module.s3.bucket_id
+   http_sg_security_group_id = module.http_sg.security_group_id
+   https_sg_security_group_id = module.https_sg.security_group_id
+   http_redirect_sg_security_group_id = module.http_redirect_sg.security_group_id
+ }
